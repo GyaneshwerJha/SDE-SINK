@@ -67,7 +67,9 @@ public:
     if (head) {
         merged->next = head;
     }
-    //  
+    if (rev) {
+        merged->next = rev;
+    }
 
     head = dummy->next;
     }
