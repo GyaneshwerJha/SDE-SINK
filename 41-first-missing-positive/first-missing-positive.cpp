@@ -12,7 +12,7 @@ public:
 
         bool flag = false;
         int missingNumber;
-        for(int i = 1; i <= maxEle; i++){
+        for(int i = 1; i <= n; i++){
             if(mp.find(i) == mp.end()){
                 flag = true;
                 cout<<flag<<endl;
