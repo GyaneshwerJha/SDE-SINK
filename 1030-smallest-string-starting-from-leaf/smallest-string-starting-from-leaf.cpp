@@ -13,7 +13,7 @@ class Solution {
 public:
     void solve(string curr, string &result, TreeNode *root){
         if(root->left == nullptr && root->right == nullptr){
-            curr += (root->val + 'a');
+            curr += (char)(root->val + 'a');
             reverse(curr.begin(), curr.end());
             if(result.empty()){
                 result = curr;
