@@ -13,8 +13,8 @@ class Solution {
 public:
     void solve(string curr, string &result, TreeNode *root){
         if(root->left == nullptr && root->right == nullptr){
-            curr += (char)(root->val + 'a');
-            reverse(curr.begin(), curr.end());
+            curr = (char)(root->val + 'a') + curr;
+            // reverse(curr.begin(), curr.end());
             if(result.empty()){
                 result = curr;
             }
@@ -25,10 +25,10 @@ public:
         }
 
         if(root->left != nullptr){
-            solve(curr + (char)(root->val + 'a'), result, root->left);
+            solve((char)(root->val + 'a') + curr, result, root->left);
         }
         if(root->right != nullptr){
-            solve(curr + (char)(root->val + 'a'), result, root->right);
+            solve((char)(root->val + 'a') + curr, result, root->right);
         }
     }
 
