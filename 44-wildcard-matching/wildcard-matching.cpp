@@ -6,8 +6,6 @@ class Solution {
         if(j == 0)
             return false;
 
-        if(dp[i][j] != -1)
-            return dp[i][j];
 
         if(i == 0) {
             while(j > 0) {
@@ -17,6 +15,9 @@ class Solution {
             }
             return dp[i][j] = 1;
         }
+        
+        if(dp[i][j] != -1)
+            return dp[i][j];
 
         bool res = false;
         if(p[j-1] == '?' || s[i-1]==p[j-1]) {
