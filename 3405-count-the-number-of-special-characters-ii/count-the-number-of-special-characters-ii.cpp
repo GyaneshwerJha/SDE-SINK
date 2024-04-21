@@ -18,7 +18,7 @@ public:
         }
 
         int count = 0;
-        for(int i = 0; i < upper.size(); i++){
+        for(int i = 65; i < upper.size(); i++){
             if(upper[i] == -1 || lower[i + 32] == -1) continue;
             else if(lower[i + 32] < upper[i]) count++; 
         }
