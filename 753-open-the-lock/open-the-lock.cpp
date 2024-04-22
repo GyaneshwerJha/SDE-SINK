@@ -40,7 +40,7 @@ public:
                         q.push(down);
                     }
 
-                    curr[j] = ch;
+                    // curr[j] = ch;
                 }
             }
             moves++;
