@@ -1,19 +1,31 @@
 class Solution {
 public:
-    int minFallingPathSum(vector<vector<int>>& arr) {
-    int fm = 0, sm = 0, pos = -1;
-    for (auto i = 0; i < arr.size(); ++i) {
-        auto fm2 = INT_MAX, sm2 = INT_MAX, pos2 = -1;
-        for (auto j = 0; j < arr[i].size(); ++j) {
-            auto mn = j != pos ? fm : sm;
-            if (arr[i][j] + mn < fm2) {
-                sm2 = fm2;
-                fm2 = arr[i][j] + mn;
-                pos2 = j;
-            } else sm2 = min(sm2, arr[i][j] + mn);
+    int n = -1, m = -1;
+    int minSum(int i, int j, vector<vector<int>> &grid, vector<vector<int>> &memo){
+        if(i == 0) return grid[i][j]; 
+        if(memo[i][j] != -1) return memo[i][j];
+
+        int result = INT_MAX;
+        for(int nextJ = 0; nextJ < m; nextJ++){
+            if(nextJ != j){
+                result = min(result, grid[i][j] + minSum(i - 1, nextJ, grid, memo));
+            }
         }
-        fm = fm2, sm = sm2, pos = pos2;
+
+        return memo[i][j] = result;
     }
-    return fm;
-}
+
+    int minFallingPathSum(vector<vector<int>>& grid) {
+        n = grid.size();
+        m = grid[0].size();
+
+        vector<vector<int>> memo(n, vector<int>(m, -1));
+
+        int mini = INT_MAX;
+        for(int j = 0; j < m; j++){
+            mini = min(mini, minSum(n - 1, j, grid, memo));
+        }
+
+        return mini;
+    }
 };
