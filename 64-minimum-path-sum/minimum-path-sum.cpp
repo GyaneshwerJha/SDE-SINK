@@ -21,7 +21,6 @@ public:
         // vector<vector<int>> memo(row, vector<int>(col, -1));
         // return solve(row - 1, col - 1, grid, memo);
         vector<vector<int>> dp(row + 1, vector<int>(col + 1, 0));
-        dp[0][0] = grid[0][0];
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
