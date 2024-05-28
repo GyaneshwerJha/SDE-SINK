@@ -20,7 +20,7 @@ public:
                     res.push_back({nums[i], nums[j], nums[k]});
                     int jVal = nums[j];
                     int kVal = nums[k];
-                    while(j < k && nums[j] == jVal){
+                    while(j + 1 < k && nums[j + 1] == jVal){
                         j++;
                     }
                     while(j < k && nums[k] == kVal){
