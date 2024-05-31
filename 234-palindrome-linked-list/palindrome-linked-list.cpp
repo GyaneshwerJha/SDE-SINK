@@ -13,13 +13,13 @@ public:
         ListNode *findMid(ListNode *head) {
         if (head == nullptr || head->next == nullptr) return head;
         ListNode *slow = head;
-        ListNode *fast = head;
+        ListNode *fast = head->next;
 
-        while (fast != nullptr && fast->next != nullptr) {
+        while (fast->next != nullptr && fast->next->next != nullptr) {
             slow = slow->next;
             fast = fast->next->next;
         }
-        return slow;
+        return slow->next;
     }
 
     ListNode *reverse(ListNode *head) {
