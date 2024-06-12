@@ -1,9 +1,10 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        int n = s.size();
-        stack<char> st;
-        
+        int n = s.length();
+
+        stack<string> st;
+
         int i = 0;
         while(s[i] == ' '){
             i++;
@@ -14,36 +15,27 @@ public:
             j--;
         }
 
+        string temp = "";
         while(i <= j){
-            if(isalnum(s[i])){
-                st.push(s[i]);
-            }
-            else{
-                if(s[i] == ' ' && s[i - 1] != ' '){
-                    st.push(' ');
+            if(s[i] == ' '){
+                st.push(temp + " ");
+                temp = "";
+                while(s[i] == ' '){
+                    i++;
                 }
             }
-            i++;
-        }
-
-        string ans = "";
-        string temp = "";
-
-        while(!st.empty()){
-            char c = st.top();
-            if(isalnum(c)){
-                temp += c;
-            }
             else{
-                reverse(temp.begin(), temp.end());
-                ans += temp;
-                ans += ' ';
-                temp = "";
+                temp += s[i];
+                i++;
             }
-            st.pop();
         }
-        reverse(temp.begin(), temp.end());
-        ans += temp;
+        st.push(temp + " ");
+        string ans = "";
+        while(!st.empty()){
+           ans += st.top();
+           st.pop();
+        }
+        ans.pop_back();
         return ans;
     }
 };
