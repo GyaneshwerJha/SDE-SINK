@@ -12,16 +12,16 @@ public:
         mp['M'] = 1000;
 
 
-        int num = 0;
+        int res = 0;
         for(int i = 0; i < n; i++){
-            if(i < n - 1 && mp[s[i]] < mp[s[i + 1]]){
-                num -= mp[s[i]];
-            }
-            else{
-                num += mp[s[i]];
+            res += mp[s[i]];
+            if(i > 0){
+                if(mp[s[i - 1]] < mp[s[i]]){
+                    res -= mp[s[i - 1]] + mp[s[i - 1]];
+                }
             }
         }
-
-        return num;
+        
+        return res;
     }
 };
