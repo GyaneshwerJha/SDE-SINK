@@ -11,16 +11,34 @@
  */
 class Solution {
 public:
+    vector<int> v;
+    // bruteforce   
 
-    set<int> st;
+    void traverse(TreeNode *root){
+        if(root == nullptr) return;
+
+        traverse(root->left);
+        v.push_back(root->val);
+        traverse(root->right);
+    }
+
+    
     bool findTarget(TreeNode* root, int k) {
-        if(root == nullptr) return false;
+        traverse(root);
 
-        if(st.count(k - root->val)) return true;
-        st.insert(root->val);
-        bool fromLeft = findTarget(root->left, k);
-        bool fromRight = findTarget(root->right, k);
-
-        return fromLeft || fromRight;
+        if(v.size() == 1) return false;
+        
+        int i = 0;
+        int j = v.size() - 1;
+        while(i < j){
+            if(v[i] + v[j] == k) return true;
+            else if(v[i] + v[j] > k){
+                j--;
+            }
+            else{
+                i++;
+            }
+        }
+        return false;
     }
 };
