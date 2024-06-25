@@ -1,62 +1,55 @@
 class Solution {
 public:
-    int maxi = INT_MIN;
-    bool checkBoundary(int nrow, int ncol, int n, int m){
-        return nrow >= 0 && nrow < n && ncol >= 0 && ncol < m;
-    }
-    int one = 0;
-    void bfs(vector<vector<int>> &visited, queue<pair<pair<int,int>, int>> &q, vector<vector<int>> &grid){   
-        int n = grid.size();
-        int m = grid[0].size();
-
-        while(!q.empty()){
-            auto it = q.front();
-            q.pop();
-
-            int row = it.first.first;
-            int col = it.first.second;
-            int time = it.second;
-            maxi = max(maxi, time);
-
-            // traverse the negihbour
-            int delrow[] = {-1, 1, 0, 0};
-            int delcol[] = {0, 0, -1, 1};
-            for(int k = 0; k < 4; k++){
-                int nrow = row + delrow[k];
-                int ncol = col + delcol[k];
-                if(checkBoundary(nrow, ncol, n, m) && visited[nrow][ncol] != 2 && grid[nrow][ncol] == 1){
-                    visited[nrow][ncol] = 2;
-                    grid[nrow][ncol] = 2;
-                    q.push({{nrow, ncol},time + 1});
-                    one--;
-                }
-            }
-        }
+    int V;
+    int X;
+    bool isValid(int nrow, int ncol){
+        return (nrow >= 0 && nrow < V && ncol >= 0 && ncol < X);
     }
 
     int orangesRotting(vector<vector<int>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-        vector<vector<int>> visited(n, vector<int>(m, 0));
+        V = grid.size();
+        X = grid[0].size();
         queue<pair<pair<int, int>, int>> q;
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
+        vector<vector<int>> visited(V, vector<int>(X, 0));
+        int numOne = 0;
+        for(int i = 0; i < V; i++){
+            for(int j = 0; j < grid[i].size(); j++){
+                cout<<grid[i][j]<<endl;
                 if(grid[i][j] == 2){
                     q.push({{i, j}, 0});
-                    visited[i][j] = 2;
                 }
-                if(grid[i][j] == 1){
-                    one++;
+                else if(grid[i][j] == 1){
+                    numOne++;
                 }
+            
             }
-        } 
-
-        bfs(visited, q, grid);
-        if(one != 0){
-            return -1;
         }
+        int minTime = 0;
+        while(!q.empty()){
+            auto it = q.front();
+            int row = it.first.first;
+            int col = it.first.second;
+            int time = it.second;
+            minTime = max(minTime, time);
+            q.pop();
 
-        return maxi == INT_MIN ? 0 : maxi;
-        
+            int dx[] = {-1, 1, 0, 0};
+            int dy[] = {0, 0, -1, 1};
+
+            for(int k = 0; k < 4; k++){
+                int nrow = row + dx[k];
+                int ncol = col + dy[k];
+
+                if(isValid(nrow, ncol) && !visited[nrow][ncol] && grid[nrow][ncol] == 1){
+                    visited[nrow][ncol] = true;
+                    numOne--;
+                    q.push({{nrow, ncol}, time + 1});
+                }
+
+            }
+        }
+        // cout<<numOne;
+        if(numOne > 0) return -1;
+        return minTime;
     }
 };
