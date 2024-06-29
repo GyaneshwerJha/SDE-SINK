@@ -20,6 +20,7 @@ public:
             q.pop();
             if(r == rSize - 1 && c == cSize - 1){
                 minPath = min(minPath, dist);
+                return;
             }
             for(int k = 0; k < 8; k++){
                 int nrow = r + dx[k];
