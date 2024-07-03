@@ -33,9 +33,39 @@ public:
 
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        int ind = 0;
-        bool canBuy = 1;
-        vector<vector<int>> memo(n + 1, vector<int>(2, -1));
-        return solve(ind, canBuy, prices, memo);
+        // int ind = 0;
+        // bool canBuy = 1;
+        // vector<vector<int>> memo(n + 1, vector<int>(2, -1));
+        // return solve(ind, canBuy, prices, memo);
+    
+        vector<vector<int>> dp(n + 1, vector<int> (2, 0));
+        
+        // initialize base case
+        dp[n][0] = dp[n][1] = 0;
+
+        for(int i = n - 1; i >= 0; i--){
+            for(int canBuy = 0; canBuy <= 1; canBuy++){
+                if(canBuy){
+                // want to buy 
+                    int take = -prices[i] + dp[i + 1][!canBuy];                    
+                    // do not want to buy
+                    int notTake = 0 + dp[i + 1][canBuy];
+
+                    dp[i][canBuy] = max(take, notTake);
+                }
+                else{ // can not buy
+                    // want to sell
+                    int take = prices[i] + dp[i + 1][!canBuy];
+
+                    // do not want to sell
+                    int notTake = 0 + dp[i + 1][canBuy];
+
+                    dp[i][canBuy] = max(take, notTake);
+                }
+            }
+        }
+
+        return dp[0][1];
+
     }
 };
