@@ -27,7 +27,7 @@ public:
             }
             temp = temp->next;
         }
-        ans->next = nullptr;
+        // ans->next = nullptr;
         return dummy->next;
     }
 };
