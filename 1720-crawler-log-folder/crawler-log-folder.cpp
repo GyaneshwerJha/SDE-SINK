@@ -6,7 +6,7 @@ public:
 
         for(int i = 0; i < n; i++){
             int size = logs[i].size();
-            if(size >= 3 && logs[i][size - 1] == '/' && logs[i][size - 2] == '.' && logs[i][size - 3] == '.'){
+            if(logs[i] == "../"){
                 if(i == 0){
                     continue;
                 }
@@ -16,13 +16,11 @@ public:
                     cnt = 0;
                 }
             }
-            else if(size >= 2 && logs[i][size - 1] == '/' && logs[i][size - 2] == '.'){
+            else if(logs[i] == "./"){
                 continue;
             }
             else{
-                if(cnt >= 0){
-                    cnt++;
-                }
+                cnt++;
             }
         }
 
