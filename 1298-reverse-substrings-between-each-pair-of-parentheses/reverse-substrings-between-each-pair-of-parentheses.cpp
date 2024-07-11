@@ -22,9 +22,7 @@ public:
             }
         }
 
-        if(s1.empty()){
-            return ans;
-        }
+
 
         string ans2 = "";
         while(!s1.empty()){
@@ -32,6 +30,6 @@ public:
             s1.pop();
         }
         reverse(ans2.begin(), ans2.end());
-        return ans + ans2;
+        return  ans2;
     }
 };
