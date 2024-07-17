@@ -1,33 +1,64 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    bool find(TreeNode* n, int val, string &path) {
-        if (n->val == val)
+    TreeNode *LCA(TreeNode *root, int startValue, int endValue){
+        if(root == nullptr || root->val == startValue || root->val == endValue) return root;
+
+        TreeNode *fromLeft = LCA(root->left, startValue, endValue);
+        TreeNode *fromRight = LCA(root->right, startValue, endValue);
+
+        if(fromLeft == nullptr) return fromRight;
+        if(fromRight == nullptr) return fromLeft;
+        return root;
+    }
+
+    bool storePath(TreeNode *root, int node, vector<int> &path){
+        if(root == nullptr){
+            return false;
+        }
+        path.push_back(root->val);
+
+        if(root->val == node){
             return true;
-        if (n->left && find(n->left, val, path))
-            path.push_back('L');
-        else if (n->right && find(n->right, val, path))
-            path.push_back('R');
-        return !path.empty();
+        }
+
+        if(storePath(root->left, node, path) || storePath(root->right, node, path)) {
+            return true;
+        }
+
+        path.pop_back();
+        return false;
     }
+
     string getDirections(TreeNode* root, int startValue, int destValue) {
-    string s_p, d_p;
-    find(root, startValue, s_p);
-    find(root, destValue, d_p);
-    while (!s_p.empty() && !d_p.empty() && s_p.back() == d_p.back()) {
-        s_p.pop_back();
-        d_p.pop_back();
+        // Find the LCA of startValue and destValue
+        TreeNode *findLCA = LCA(root, startValue, destValue);
+        int Baap = findLCA->val;
+        
+        vector<int> path1;
+        vector<int> path2;
+
+        // Store paths from root to startValue and destValue
+        storePath(findLCA, startValue, path1);
+        storePath(findLCA, destValue, path2);
+
+        string ans = "";
+        
+        // To move from startValue to LCA, we go up
+        for (int i = 1; i < path1.size(); ++i) {
+            ans += 'U';
+        }
+
+        // To move from LCA to destValue
+        for (int i = 1; i < path2.size(); ++i) {
+            if (findLCA->left && path2[i] == findLCA->left->val) {
+                ans += 'L';
+                findLCA = findLCA->left;
+            } else if (findLCA->right && path2[i] == findLCA->right->val) {
+                ans += 'R';
+                findLCA = findLCA->right;
+            }
+        }
+
+        return ans;
     }
-    return string(s_p.size(), 'U') + string(rbegin(d_p), rend(d_p));
-}
 };
