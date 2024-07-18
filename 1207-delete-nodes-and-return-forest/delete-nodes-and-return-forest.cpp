@@ -11,21 +11,35 @@
  */
 class Solution {
 public:
-        vector<TreeNode*> result;
-    set<int> to_delete_set;
-    vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
-        for (int i : to_delete)
-            to_delete_set.insert(i);
-        helper(root, result, to_delete_set, true);
-        return result;
+    TreeNode* postOrder(TreeNode *root, set<int> &st, vector<TreeNode*> &ans){
+        if(root == nullptr) return root;
+
+        root->left = postOrder(root->left, st, ans);
+        root->right = postOrder(root->right, st, ans);
+
+        // check if it is present in set
+        if(st.find(root->val) != st.end()){
+            if(root->left != nullptr){
+                ans.push_back(root->left);
+            }
+            if(root->right != nullptr){
+                ans.push_back(root->right);
+            }
+            return NULL;
+        }
+        else{
+            return root;
+        }
     }
 
-    TreeNode* helper(TreeNode* node, vector<TreeNode*>& result, set<int>& to_delete_set, bool is_root) {
-        if (node == NULL) return NULL;
-        bool deleted = to_delete_set.find(node->val) != to_delete_set.end();
-        if (is_root && !deleted) result.push_back(node);
-        node->left = helper(node->left, result, to_delete_set, deleted);
-        node->right =  helper(node->right, result, to_delete_set, deleted);
-        return deleted ? NULL : node;
+    vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
+        set<int> st(to_delete.begin(), to_delete.end());
+        vector<TreeNode*> ans;
+        
+        postOrder(root, st, ans);
+        if(st.find(root->val) == st.end()){
+            ans.push_back(root);
+        }
+        return ans;
     }
 };
