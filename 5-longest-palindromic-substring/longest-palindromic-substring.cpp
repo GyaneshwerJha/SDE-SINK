@@ -1,30 +1,25 @@
 class Solution {
 public:
-    int t[1001][1001];  // memoization 2D array
-    
-    bool solve(string &s, int i, int j) {
-        if (i >= j)
-            return true;
+    int memo[1001][1001];
+    bool checkPalindrome(string &s, int i, int j){
+       if(i >= j) return true;
+        if(memo[i][j] != -1) return memo[i][j];
 
-        if (t[i][j] != -1)
-            return t[i][j];
-
-        if (s[i] == s[j])
-            return t[i][j] = solve(s, i + 1, j - 1);
-
-        return t[i][j] = 0;
+       if(s[i] == s[j]){
+        return memo[i][j] = checkPalindrome(s, i + 1, j - 1);
+       }
+       return memo[i][j] = 0;
     }
 
     string longestPalindrome(string s) {
         int n = s.length();
-        memset(t, -1, sizeof(t));
         int maxLen = INT_MIN;
+        memset(memo, -1, sizeof(memo));
         int start = -1;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                if (solve(s, i, j)) {
-                    if (j - i + 1 > maxLen) {
+        for(int i = 0; i < n; i++){
+            for(int j = i; j < n; j++){
+                if(checkPalindrome(s, i, j)){
+                    if(j - i + 1 > maxLen){
                         maxLen = j - i + 1;
                         start = i;
                     }
