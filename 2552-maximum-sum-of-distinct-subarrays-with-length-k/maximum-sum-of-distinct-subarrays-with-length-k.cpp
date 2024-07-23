@@ -10,7 +10,7 @@ public:
         while(j < n){
             mp[nums[j]]++;
             sum += nums[j];
-            while(j - i + 1 > k){
+            if(j - i + 1 > k){
                 sum -= nums[i];
                 mp[nums[i]]--;
                 if(mp[nums[i]] == 0){
