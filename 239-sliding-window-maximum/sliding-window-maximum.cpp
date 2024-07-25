@@ -10,12 +10,10 @@ public:
                 int maxEle = *st.rbegin();
                 ans.push_back(maxEle);
                 int delInd = i - k + 1;
-                if (delInd >= 0) {
                     st.erase(st.find(nums[delInd]));
-                }           
             }
         }
-
+ 
         return ans;
     }
 };
