@@ -19,9 +19,9 @@ public:
 
         sort(v.begin(), v.end(), sortByFreq);
         
-        for(auto it : v){
-            cout<<it.first<<" -> "<<it.second<<endl;
-        }
+        // for(auto it : v){
+        //     cout<<it.first<<" -> "<<it.second<<endl;
+        // }
 
         int cnt = 1;
         int mini = 0;
@@ -30,23 +30,23 @@ public:
             int freq = it.second;
             if(cnt <= 8){
                 mini += freq;
-                cout<<"count"<<cnt<<" ";
-                cout<<mini<<endl;
+                // cout<<"count"<<cnt<<" ";
+                // cout<<mini<<endl;
             }
             else if(cnt > 8 && cnt <= 16){
                 mini += 2 * freq;
-                cout<<"count"<<cnt<<" ";
-                cout<<mini<<endl;
+                // cout<<"count"<<cnt<<" ";
+                // cout<<mini<<endl;
             }
             else if(cnt > 16 && cnt <= 24){
                 mini += 3 * freq;
-                cout<<"count"<<cnt<<" ";
-                cout<<mini<<endl;
+                // cout<<"count"<<cnt<<" ";
+                // cout<<mini<<endl;
             }
             else{
                 mini += 4 * freq;
-                cout<<"count"<<cnt<<" ";
-                cout<<mini<<endl;
+                // cout<<"count"<<cnt<<" ";
+                // cout<<mini<<endl;
             }
             cnt++;
             // cout<<cnt<<endl;
