@@ -1,34 +1,35 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    void combination(vector<int> &temp, int sum, int index, int n, vector<int> &candidates, int target){
-        if(sum == target){
+        vector<vector<int>> ans;
+
+    void solve(int ind, int n, vector<int> &temp, vector<int> &candidates, int target){
+        if(target == 0){
             ans.push_back(temp);
             return;
         }
 
-        if(index == n || sum > target) return;
+        if(ind == n || target < candidates[ind]) return;
 
-        // take 
-        temp.push_back(candidates[index]);
-        combination(temp, sum + candidates[index], index + 1, n, candidates, target);
-        temp.pop_back();
-
-        while(index + 1 < n && candidates[index] == candidates[index + 1]){
-            index++;
+        
+        if(target >= candidates[ind]){
+            temp.push_back(candidates[ind]);
+            solve(ind + 1, n, temp, candidates, target - candidates[ind]);
+            temp.pop_back();
         }
 
-        // not take
-        combination(temp, sum, index + 1, n, candidates, target);
+        while(ind + 1 < n && candidates[ind] == candidates[ind + 1]){
+            ind++;
+        }
+
+        solve(ind + 1, n, temp, candidates, target);
     }
 
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         int n = candidates.size();
-        int index = 0;
-        int sum = 0;
+        int ind = 0;
         vector<int> temp;
         sort(candidates.begin(), candidates.end());
-        combination(temp, sum, index, n, candidates, target);
+        solve(ind, n, temp, candidates, target);
         return ans;
     }
 };
