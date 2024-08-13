@@ -3,36 +3,36 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         int n = nums.size();
         sort(nums.begin(), nums.end());
-        vector<vector<int>> res;
-        for(int i = 0; i < n; i++){
-            int j = i + 1;
-            int k = n - 1;
-            int iVal = nums[i];
-            while(j < k){
-                int sum = nums[i] + nums[j] + nums[k];
-                if(sum < 0){
-                    j++;
+        vector<vector<int>> ans;
+        for(int k = 0; k < n; k++){
+            int i = k + 1;
+            int j = n - 1;
+            int kVal = nums[k];
+
+            while(i < j){
+                if(kVal + nums[i] + nums[j] == 0){
+                    ans.push_back({kVal, nums[i], nums[j]});
+                    while(i + 1 < j && nums[i] == nums[i + 1]){
+                        i++;
+                    }
+                    while(i + 1 < j && nums[j] == nums[j - 1]){
+                        j--;
+                    }
+                    i++;
+                    j--;
                 }
-                else if(sum > 0){
-                    k--;
+                else if(nums[i] + nums[j] + kVal > 0){
+                    j--;
                 }
                 else{
-                    res.push_back({nums[i], nums[j], nums[k]});
-                    int jVal = nums[j];
-                    int kVal = nums[k];
-                    while(j + 1 < k && nums[j + 1] == jVal){
-                        j++;
-                    }
-                    while(j < k && nums[k] == kVal){
-                        k--;
-                    }
+                    i++;
                 }
-            }
-
-            while(i + 1 < n && nums[i + 1] == iVal){
-                i++;
+                while(k + 1 < n && nums[k] == nums[k + 1]){
+                    k++;
+                }
+                // -4 -1, -1, 0, 1, 2
             }
         }
-        return res;
+        return ans;
     }
 };
