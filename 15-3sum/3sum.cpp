@@ -27,10 +27,9 @@ public:
                 else{
                     i++;
                 }
-                while(k + 1 < n && nums[k] == nums[k + 1]){
-                    k++;
-                }
-                // -4 -1, -1, 0, 1, 2
+            }
+            while(k + 1 < n && nums[k] == nums[k + 1]){
+                k++;
             }
         }
         return ans;
