@@ -12,7 +12,6 @@ public:
 
                 while(k < l){
                     long long int sum = (long long int)nums[i] + nums[j] + nums[k] + nums[l];
-                    // cout<<sum;
                     if(sum > target){
                         l--;
                     }
