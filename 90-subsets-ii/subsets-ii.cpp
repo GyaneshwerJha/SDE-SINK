@@ -25,7 +25,7 @@ public:
         int n = nums.size();
         sort(nums.begin(), nums.end());
         subsetSum(temp, 0, n, nums);
-        sort(ans.begin(), ans.end());
+        // sort(ans.begin(), ans.end());
         return ans;
     }
 };
