@@ -1,42 +1,46 @@
 class Solution {
 public:
-    bool isFine(vector<int> allDay, int m, int k, int days){
-        int n = allDay.size();
-
+    bool check(int mid, int k, int m, vector<int> &bloomDay){
         int cnt = 0;
+        int n = bloomDay.size();
+        int size = 0;
         for(int i = 0; i < n; i++){
-            if(allDay[i] <= days){
-                cnt++;
+            if(bloomDay[i] <= mid){
+                size += 1;
             }
             else{
-                cnt = 0;
+                size = 0;
             }
 
-            if(cnt == k){
-                m--;
-                cnt = 0;
+            if(size == k){
+                size = 0;
+                cnt++;
+                if(cnt == m) return true;
             }
         }
 
-
-        return m <= 0;
-
+        return false;
     }
-
 
     int minDays(vector<int>& bloomDay, int m, int k) {
         int n = bloomDay.size();
-        // base case
-        if(n < (long long)m * (long long)k) return -1;
+        if(n / k < m) return -1;
 
-        int low = *min_element(bloomDay.begin(), bloomDay.end());
-        int high = *max_element(bloomDay.begin(), bloomDay.end());
-        int mini = INT_MAX;
+        int low = INT_MAX;
+        int high = INT_MIN;
+
+        for(int i = 0; i < n; i++){
+            low = min(low, bloomDay[i]);
+            high = max(high, bloomDay[i]);
+        }
+
+        int ans = high;
+
         while(low <= high){
-            int mid = (low + high) / 2;
+            int mid = low + (high - low) / 2;
 
-            if(isFine(bloomDay, m, k, mid)){
-                mini = min(mini, mid);
+            if(check(mid, k, m, bloomDay)){
+                ans = min(ans, mid);
                 high = mid - 1;
             }
             else{
@@ -44,6 +48,7 @@ public:
             }
         }
 
-        return mini;
+        return ans;
+        
     }
 };
