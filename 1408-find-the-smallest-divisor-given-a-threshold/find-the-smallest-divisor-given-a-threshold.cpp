@@ -5,10 +5,9 @@ public:
 
         int sum = 0;
         for(int i = 0; i < n; i++){
-            // cout<<nums[i]<<" "<<nums[mid]<< " " << nums[i] / nums[mid]<<endl;
-            sum += (nums[i] + mid - 1) / mid;
+            sum += nums[i] / mid;
+            if(nums[i] % mid != 0) sum++;
         }
-        cout<<endl<<endl;
         return sum;
     }
 
