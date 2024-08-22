@@ -9,7 +9,7 @@ public:
         temp >>= 1;
     }
 
-    return ~num & mask;
+    return num ^ mask;
 }
 
 };
