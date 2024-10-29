@@ -1,48 +1,34 @@
 class Solution {
 public:
-    bool isValid(int nrow, int ncol, int n, int m){
-        return (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m);
+    int dp[1001][10001];
+    int find_maxMove(int i, int j, int n, int m, vector<vector<int>> &grid) {
+        if (i >= n || j >= m || i < 0 || j < 0) return 0;
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        int right = 0, up = 0, down = 0;        
+        if (i - 1 >= 0 && j + 1 < m && grid[i - 1][j + 1] > grid[i][j]) {
+            up = 1 + find_maxMove(i - 1, j + 1, n, m, grid);
+        }
+        if (j + 1 < m && grid[i][j + 1] > grid[i][j]) {
+            right = 1 + find_maxMove(i, j + 1, n, m, grid);
+        }
+        if (i + 1 < n && j + 1 < m && grid[i + 1][j + 1] > grid[i][j]) {
+            down = 1 + find_maxMove(i + 1, j + 1, n, m, grid);
+        }
+
+        int maxi = max({up, down, right});
+        return dp[i][j] = maxi;
     }
 
     int maxMoves(vector<vector<int>>& grid) {
         int n = grid.size();
         int m = grid[0].size();
-        int dx[] = {-1, 0, 1};
-        int dy[] = {1, 1, 1};
-        vector<vector<int>> dist(n, vector<int>(m, 0));
-        queue<pair<int, int>> q;
-
-        // Initialize the queue with all cells in the first column
-        for(int i = 0; i < n; i++) {
-            q.push({i, 0});
+        memset(dp, -1, sizeof(dp));
+        int result = 0;
+        for(int j = 0; j < n; j++){
+            result = max(result, find_maxMove(j, 0, n, m, grid));
         }
-
-        // Perform BFS
-        while(!q.empty()) {
-            auto it = q.front();
-            int row = it.first;
-            int col = it.second;
-            q.pop();
-
-            for(int k = 0; k < 3; k++) {
-                int nrow = row + dx[k];
-                int ncol = col + dy[k];
-
-                if(isValid(nrow, ncol, n, m) && grid[nrow][ncol] > grid[row][col] && dist[nrow][ncol] < dist[row][col] + 1) {
-                    dist[nrow][ncol] = dist[row][col] + 1;
-                    q.push({nrow, ncol});
-                }
-            }
-        }
-
-        // Find the maximum distance
-        int maxi = 0;
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < m; j++) {
-                maxi = max(maxi, dist[i][j]);
-            }
-        }
-
-        return maxi;
+        return result;
     }
 };
